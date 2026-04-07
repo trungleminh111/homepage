@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ChevronDown, Search } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 const navItems = [
   { label: "TRANG CHỦ", href: "#" },
-  { label: "TECHWORLD", href: "#about", hasDropdown: true },
-  { label: "GIẢI PHÁP", href: "#services", hasDropdown: true },
+  { label: "TECHWORLD", href: "#about" },
+  { label: "GIẢI PHÁP", href: "#services" },
   { label: "TIN TỨC & SỰ KIỆN", href: "#news" },
   { label: "TUYỂN DỤNG", href: "#" },
 ];
@@ -14,49 +14,53 @@ const Header = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
+    const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? "bg-background shadow-md" : "bg-background/95 backdrop-blur-sm shadow-sm"}`}>
-      <div className="container mx-auto flex items-center justify-between h-[70px] px-4">
+    <header 
+      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
+        scrolled ? "bg-white shadow-md py-2" : "bg-white/95 backdrop-blur-md py-4"
+      }`}
+      style={{ 
+        zIndex: 9999, // Luôn nằm trên Banner
+        WebkitBackdropFilter: "blur(12px)" // Hỗ trợ blur cho Safari
+      }}
+    >
+      <div className="container mx-auto flex items-center justify-between h-[60px] px-4">
         <a href="#" className="flex items-center">
-          <span className="text-2xl font-extrabold tracking-wider text-tw-blue" style={{ fontFamily: "'Inter', sans-serif", letterSpacing: "0.15em" }}>
+          <span className="text-2xl font-extrabold tracking-wider text-[#2563eb]" style={{ letterSpacing: "0.1em" }}>
             TECHWORLD
           </span>
         </a>
 
-        <nav className="hidden lg:flex items-center gap-0">
+        <nav className="hidden lg:flex items-center gap-2">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className="flex items-center gap-1 px-5 py-2 text-[13px] font-bold text-foreground hover:text-tw-blue transition-colors uppercase tracking-wide"
+              className="px-4 py-2 text-[13px] font-bold text-slate-800 hover:text-[#2563eb] transition-colors uppercase"
             >
               {item.label}
-              
             </a>
           ))}
-          
         </nav>
 
-        <button
-          className="lg:hidden p-2 text-foreground"
-          onClick={() => setMobileOpen(!mobileOpen)}
-        >
-          {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        <button className="lg:hidden p-2 text-slate-900" onClick={() => setMobileOpen(!mobileOpen)}>
+          {mobileOpen ? <X /> : <Menu />}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       {mobileOpen && (
-        <div className="lg:hidden bg-background border-t">
+        <div className="lg:hidden bg-white border-t absolute top-full left-0 w-full shadow-xl">
           {navItems.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className="block px-6 py-3 text-sm font-semibold text-foreground hover:bg-accent transition-colors"
+              className="block px-6 py-4 text-sm font-bold text-slate-800 border-b border-gray-50"
               onClick={() => setMobileOpen(false)}
             >
               {item.label}
