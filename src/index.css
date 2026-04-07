@@ -174,3 +174,28 @@
 .animate-pulse-glow {
   animation: pulse-glow 2.5s ease-in-out infinite;
 }
+
+/* 1. Giấu thanh toolbar đáng ghét của Google */
+.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 2. Ép body không bị nhảy top 40px */
+body {
+  top: 0 !important;
+}
+
+/* 3. Giấu các thành phần rác khác */
+.skiptranslate, 
+.goog-te-balloon-frame, 
+#goog-gt-tt {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+/* 4. Chống hiện hover dịch trên text */
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}

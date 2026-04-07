@@ -1,13 +1,54 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TECHWORLD</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<html lang="vi"> <!-- Đổi thành vi vì ngôn ngữ gốc của mình là Tiếng Việt -->
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/logo.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TECHWORLD</title>
+
+  <style>
+    /* Fix triệt để các lỗi hiển thị do Google Translate gây ra */
+    body {
+      top: 0 !important;
+      position: static !important;
+    }
+
+    .skiptranslate,
+    .goog-te-banner-frame,
+    #goog-gt-tt,
+    .goog-te-balloon-frame {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+    .goog-text-highlight {
+      background-color: transparent !important;
+      box-shadow: none !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <!-- Widget tàng hình của Google -->
+  <!-- Đừng dùng style="display:none" trực tiếp ở đây, cứ để nó trống -->
+  <div id="google_translate_element"></div>
+
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({
+        pageLanguage: 'vi',
+        includedLanguages: 'en,vi',
+        autoDisplay: false
+      }, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+
 </html>
