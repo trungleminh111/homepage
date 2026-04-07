@@ -36,17 +36,24 @@
   <!-- Đừng dùng style="display:none" trực tiếp ở đây, cứ để nó trống -->
   <div id="google_translate_element"></div>
 
+  <script type="text/javascript"
+    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
   <script type="text/javascript">
     function googleTranslateElementInit() {
       new google.translate.TranslateElement({
         pageLanguage: 'vi',
         includedLanguages: 'en,vi',
+        layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
         autoDisplay: false
       }, 'google_translate_element');
     }
+
+    // Trick cho Safari: Tự động điền lại cookie nếu bị mất
+    if (localStorage.getItem("lang") === "en") {
+      document.cookie = "googtrans=/vi/en; path=/";
+    }
   </script>
-  <script type="text/javascript"
-    src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 
   <script type="module" src="/src/main.jsx"></script>
 </body>
