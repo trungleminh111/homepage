@@ -54,20 +54,31 @@ const HeroSection = () => {
   const slide = slides[current];
 
   return (
-    <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-16">
+    <section className="relative min-h-[90vh] flex items-center overflow-hidden pt-16 bg-[#0f172a]">
+      {/* Background Image & Overlay */}
       <div
-        className="absolute inset-0 transition-opacity duration-500"
-        style={{ opacity: animating ? 0 : 1 }}
+        className="absolute inset-0 transition-opacity duration-700 safari-gpu-fix"
+        style={{ opacity: animating ? 0 : 1, zIndex: 1 }}
       >
         <img
           src={slide.bg}
           alt=""
           className="w-full h-full object-cover"
-          style={{ animation: "subtle-zoom 8s ease-out forwards" }}
-          width={1920}
-          height={1080}
+          style={{ 
+            animation: "subtle-zoom 8s ease-out forwards",
+          }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-tw-navy/85 via-tw-navy/60 to-transparent" />
+        
+        {/* Lớp phủ bóng mờ - Đã sửa lỗi cho Safari Mobile */}
+        <div 
+          className="absolute inset-0" 
+          style={{ 
+            background: "linear-gradient(to right, rgba(15, 23, 42, 0.9) 0%, rgba(15, 23, 42, 0.6) 50%, rgba(15, 23, 42, 0) 100%)",
+            WebkitBackdropFilter: "blur(0px)" 
+          }}
+        />
+        {/* Thêm một lớp phủ tối bổ sung cho Mobile nếu gradient vẫn chưa đủ rõ */}
+        <div className="absolute inset-0 bg-black/20 md:hidden" />
       </div>
 
       <div className="relative z-10 container mx-auto px-4">
@@ -75,7 +86,7 @@ const HeroSection = () => {
           className="max-w-xl"
           style={{
             opacity: animating ? 0 : 1,
-            transform: animating ? "translateX(-20px)" : "translateX(0)",
+            transform: animating ? "translate3d(-20px, 0, 0)" : "translate3d(0, 0, 0)",
             transition: "opacity 0.4s ease, transform 0.4s ease",
           }}
         >
@@ -96,17 +107,15 @@ const HeroSection = () => {
           <div className="flex items-center gap-4">
             <a
               href="#contact"
-              className="inline-block bg-tw-blue text-white font-bold px-10 py-3 rounded-full hover:bg-tw-gold hover:text-tw-navy transition-all duration-300 text-sm uppercase tracking-widest shadow-lg animate-pulse-glow"
+              className="inline-block bg-blue-600 text-white font-bold px-10 py-3 rounded-full hover:bg-yellow-500 transition-all duration-300 text-sm uppercase tracking-widest shadow-lg animate-pulse-glow"
             >
               Liên Hệ
             </a>
-            
-             
-           
           </div>
         </div>
       </div>
 
+      {/* Điều hướng dots */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2 z-20">
         {slides.map((_, i) => (
           <button
@@ -115,15 +124,19 @@ const HeroSection = () => {
             className={`rounded-full transition-all duration-300 ${
               i === current
                 ? "bg-tw-gold w-8 h-2"
-                : "bg-white/40 hover:bg-white/70 w-2 h-2"
+                : "bg-white/40 w-2 h-2"
             }`}
           />
         ))}
       </div>
 
+      {/* Progress Bar ở đáy */}
       <div
-        className="absolute bottom-0 left-0 h-0.5 bg-tw-gold/60 z-20"
-        style={{ animation: "progress-bar 5s linear infinite" }}
+        className="absolute bottom-0 left-0 h-1 bg-yellow-500/60 z-30"
+        style={{ 
+          animation: "progress-bar 5s linear infinite",
+          WebkitAnimation: "progress-bar 5s linear infinite" 
+        }}
       />
     </section>
   );
