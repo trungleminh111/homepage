@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Award, Clock, ShieldCheck, MessageCircle } from "lucide-react";
-import ContactSection from "./ContactSection";
-import WhyUsSection from "./WhyUsSection";
+
 
 
 const reasons = [

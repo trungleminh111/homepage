@@ -17,7 +17,7 @@ const ScrollToTop = () => {
       onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       className="fixed bottom-6 right-6 z-50 w-10 h-10 rounded bg-tw-blue text-primary-foreground flex items-center justify-center shadow-lg hover:bg-tw-blue-dark transition-colors"
     >
-      
+      ^
     </button>
   );
 };

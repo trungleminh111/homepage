@@ -9,7 +9,7 @@ import HighlightsSection from "./components/HighlightsSection"
 import PartnersSection from "./components/PartnersSection"
 import ScrollToTop from "./components/ScrollToTop"
 import ContactSection from './components/ContactSection'
-import WhyUsSection from './components/WhyUsSection'
+
 
 
 function App() {
@@ -20,10 +20,9 @@ function App() {
       <Header/>
       <HeroSection/>
       <AboutSection/>
-      <WhyUsSection />
       <HighlightsSection/>
-      <ContactSection />
       <PartnersSection/>
+      <ContactSection/>
       <ScrollToTop/>
       <Footer/>
     </>

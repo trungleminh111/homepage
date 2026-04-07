@@ -17,6 +17,18 @@ const consultingServices = [
 ];
 
 const solutionLogos = [
+  "https://twi.vn/wp-content/uploads/2025/08/9-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/08/10-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/08/12-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/08/13-1-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/08/8-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/08/7-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/08/11-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/07/3-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/07/1-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/07/2-1-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/09/image_2025-09-29_083330706-150x150.png",
+  "https://twi.vn/wp-content/uploads/2025/09/image_2025-09-29_083217727-300x153.png",
 ];
 
 const AboutSection = () => {
