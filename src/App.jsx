@@ -1,5 +1,5 @@
-
 import './index.css'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import AboutSection from "./components/AboutSection"
 import Footer from "./components/Footer"
@@ -9,23 +9,29 @@ import HighlightsSection from "./components/HighlightsSection"
 import PartnersSection from "./components/PartnersSection"
 import ScrollToTop from "./components/ScrollToTop"
 import ContactSection from './components/ContactSection'
+import PostDetail from "./pages/PostDetail"
 
-
+const Home = () => (
+  <>
+    <HeroSection />
+    <AboutSection />
+    <HighlightsSection />
+    <PartnersSection />
+    <ContactSection />
+  </>
+)
 
 function App() {
-
-
   return (
-    <>
-      <Header/>
-      <HeroSection/>
-      <AboutSection/>
-      <HighlightsSection/>
-      <PartnersSection/>
-      <ContactSection/>
-      <ScrollToTop/>
-      <Footer/>
-    </>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tin-tuc/:slug" element={<PostDetail />} />
+      </Routes>
+      <ScrollToTop />
+      <Footer />
+    </BrowserRouter>
   )
 }
 

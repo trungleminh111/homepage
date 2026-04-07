@@ -1,10 +1,25 @@
-
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "react-router-dom";
+import { getPosts } from "../api/api";
 
 const Footer = () => {
+  const {
+    data: posts = [],
+    isLoading,
+    isError,
+  } = useQuery({
+    queryKey: ["posts", 3],
+    queryFn: () => getPosts(3),
+    staleTime: 1000 * 60 * 5, // cache 5 phút
+    refetchOnWindowFocus: false, // tránh gọi lại khi quay lại tab
+  });
+
   return (
     <footer className="bg-foreground py-12">
       <div className="container mx-auto px-4">
         <div className="grid md:grid-cols-3 gap-10 text-primary-foreground/70 text-sm">
+
+          {/* LEFT */}
           <div>
             <h4 className="text-primary-foreground font-bold text-base uppercase mb-4 tracking-wide">
               TECHWORLD SOLUTIONS VIETNAM
@@ -24,32 +39,56 @@ const Footer = () => {
             </div>
           </div>
 
+          {/* POSTS */}
           <div>
             <h4 className="text-primary-foreground font-bold text-base uppercase mb-4 tracking-wide">
               BÀI ĐĂNG MỚI NHẤT
             </h4>
+
             <div className="space-y-4">
-              <div>
-                <a href="#" className="text-primary-foreground/80 hover:text-tw-gold transition-colors font-medium text-sm uppercase">
-                  [TUYỂN DỤNG] MENDIX DEVELOPER
-                </a>
-                <p className="text-primary-foreground/50 text-xs mt-1">April 3, 2026</p>
-              </div>
-              <div>
-                <a href="#" className="text-primary-foreground/80 hover:text-tw-gold transition-colors font-medium text-sm uppercase">
-                  [TUYỂN DỤNG] D365 BUSINESS CENTRAL CONSULTANT (MID-LEVEL)
-                </a>
-                <p className="text-primary-foreground/50 text-xs mt-1">April 3, 2026</p>
-              </div>
-              <div>
-                <a href="#" className="text-primary-foreground/80 hover:text-tw-gold transition-colors font-medium text-sm uppercase">
-                  [TUYỂN DỤNG] DATABASE SPECIALIST (SQL DEVELOPER / DBA)
-                </a>
-                <p className="text-primary-foreground/50 text-xs mt-1">April 3, 2026</p>
-              </div>
+
+              {/* Loading skeleton */}
+              {isLoading && (
+                <div className="space-y-2 animate-pulse">
+                  <div className="h-4 bg-gray-500/40 rounded w-3/4"></div>
+                  <div className="h-3 bg-gray-600/40 rounded w-1/2"></div>
+                  <div className="h-4 bg-gray-500/40 rounded w-2/3"></div>
+                </div>
+              )}
+
+              {/* Error */}
+              {isError && (
+                <p className="text-red-400">Không tải được bài viết</p>
+              )}
+
+              {/* Data */}
+              {!isLoading && !isError &&
+                posts.map((post) => {
+                  const date = new Date(post.date).toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                  });
+
+                  return (
+                    <div key={post.id}>
+                      <Link
+                        to={`/tin-tuc/${post.slug}`}
+                        className="text-primary-foreground/80 hover:text-tw-gold transition-colors font-medium text-sm uppercase block"
+                        dangerouslySetInnerHTML={{
+                          __html: post.title.rendered,
+                        }}
+                      />
+                      <p className="text-primary-foreground/50 text-xs mt-1">
+                        {date}
+                      </p>
+                    </div>
+                  );
+                })}
             </div>
           </div>
 
+          {/* RIGHT */}
           <div>
             <h4 className="text-primary-foreground font-bold text-base uppercase mb-4 tracking-wide">
               TECHWORLD SOLUTIONS VIETNAM
@@ -64,27 +103,17 @@ const Footer = () => {
             <p className="text-primary-foreground font-semibold mb-3">Liên Hệ Chúng Tôi</p>
             <div className="flex items-center gap-4">
               <a href="#" className="text-primary-foreground/70 hover:text-tw-blue-light transition-colors">
-                
+
               </a>
               <a href="#" className="text-primary-foreground/70 hover:text-tw-blue-light transition-colors">
-               
+
               </a>
               <a href="#" className="text-primary-foreground/70 hover:text-tw-blue-light transition-colors">
-                
+
               </a>
             </div>
           </div>
-        </div>
 
-        <div className="border-t border-primary-foreground/10 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between text-primary-foreground/50 text-xs">
-          <p>© 2019 All Rights Reserved</p>
-          <div className="flex items-center gap-4 mt-3 md:mt-0">
-            <a href="#" className="hover:text-primary-foreground transition-colors">TRANG CHỦ</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">TECHWORLD</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">GIẢI PHÁP</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">TIN TỨC & SỰ KIỆN</a>
-            <a href="#" className="hover:text-primary-foreground transition-colors">TUYỂN DỤNG</a>
-          </div>
         </div>
       </div>
     </footer>
