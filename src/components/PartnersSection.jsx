@@ -1,33 +1,40 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/logo.png" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TECHWORLD</title>
+const partnerLogos = [
+  { src: "https://twi.vn/wp-content/uploads/2025/08/1.png", alt: "Microsoft" },
+  { src: "https://twi.vn/wp-content/uploads/2025/08/4-1.png", alt: "Epicor" },
+  { src: "https://twi.vn/wp-content/uploads/2025/08/3.png", alt: "Siemens" },
+  { src: "https://twi.vn/wp-content/uploads/2025/08/6-1.png", alt: "BytePlus" },
+  { src: "https://twi.vn/wp-content/uploads/2025/08/5-2.png", alt: "Mendix" },
+  { src: "https://twi.vn/wp-content/uploads/2025/08/8-2.png", alt: "AWS" },
+  { src: "https://twi.vn/wp-content/uploads/2025/08/7_3.png", alt: "Insider" },
+];
 
-    <!-- SEO -->
-    <meta name="description" content="Business Enhancement Solutions" />
+const PartnersSection = () => {
+  return (
+    <section className="py-10 md:py-16 bg-background overflow-hidden">
+      <div className="container mx-auto px-4 mb-8 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Đối tác chiến lược</h2>
+        <p className="text-muted-foreground mt-2">Hợp tác cùng các tập đoàn công nghệ hàng đầu thế giới</p>
+      </div>
+      <div className="block md:hidden px-4">
+        <div className="grid grid-cols-4 gap-3">
+          {partnerLogos.map((logo, i) => (
+            <div key={i} className="flex items-center justify-center p-3 rounded-lg border border-border shadow-sm hover:shadow-md transition-shadow bg-card">
+              <img src={logo.src} alt={logo.alt} className="h-8 w-auto object-contain" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="hidden md:block relative">
+        <div className="flex animate-marquee whitespace-nowrap">
+          {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, i) => (
+            <div key={i} className="flex-shrink-0 mx-10 flex items-center justify-center h-20">
+              <img src={logo.src} alt={logo.alt} className="h-16 w-auto object-contain" loading="lazy" />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
 
-    <!-- Open Graph (Facebook, Zalo, Messenger...) -->
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="TECHWORLD" />
-    <meta property="og:description" content="Business Enhancement Solutions" />
-    <meta property="og:url" content="https://app.twbes.com/" />
-    <meta property="og:image" content="https://app.twbes.com/logo.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="TECHWORLD" />
-    <meta property="og:locale" content="vi_VN" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="TECHWORLD" />
-    <meta name="twitter:description" content="Business Enhancement Solutions" />
-    <meta name="twitter:image" content="https://app.twbes.com/logo.png" />
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
-</html>
+export default PartnersSection;
