@@ -26,7 +26,7 @@ const PartnersSection = () => {
       </div>
       {/* Desktop: marquee */}
       <div className="hidden md:block relative">
-        <div className="flex animate-marquee whitespace-nowrap">
+        <div className="flex  animate-marquee whitespace-nowrap">
           {[...partnerLogos, ...partnerLogos, ...partnerLogos].map((logo, i) => (
             <div key={i} className="flex-shrink-0 mx-10 flex items-center justify-center h-20">
               <img src={logo.src} alt={logo.alt} className="h-16 w-auto object-contain" loading="lazy" />
