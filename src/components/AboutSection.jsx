@@ -58,7 +58,7 @@ const AboutSection = () => {
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-3 gap-12 items-start">
             <div className="lg:col-span-1">
-              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6 leading-tight">15 Năm Kinh Nghiệm</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-6 leading-tight">25 Năm Kinh Nghiệm</h2>
               <p className="text-muted-foreground leading-relaxed text-base">
                 Đội ngũ tư vấn của chúng tôi sở hữu hơn 25 năm kinh nghiệm trong việc cung cấp các giải pháp chuyển đổi số phù hợp theo nhu cầu doanh nghiệp. Chúng tôi chuyên triển khai hệ thống quản trị doanh nghiệp, tối ưu quy trình kinh doanh và thúc đẩy đổi mới sáng tạo thông qua các công nghệ đã được kiểm chứng.
               </p>
