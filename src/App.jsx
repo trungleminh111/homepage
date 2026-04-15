@@ -10,12 +10,17 @@ import PartnersSection from "./components/PartnersSection"
 import ScrollToTop from "./components/ScrollToTop"
 import ContactSection from './components/ContactSection'
 import PostDetail from "./pages/PostDetail"
+import ProjectList from './components/ProjectList'
+import ProjectDetail from './pages/ProductDetail'
+import AdminDashboard from './pages/AdminDashboard'
+import Login from './pages/Login'
 
 const Home = () => (
   <>
     <HeroSection />
     <AboutSection />
     <HighlightsSection />
+    <ProjectList />
     <PartnersSection />
     <ContactSection />
   </>
@@ -28,6 +33,9 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/tin-tuc/:slug" element={<PostDetail />} />
+        <Route path="/project/:id" element={<ProjectDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
       <ScrollToTop />
       <Footer />

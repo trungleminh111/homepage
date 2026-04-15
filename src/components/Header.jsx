@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
 const navItems = [
-  { label: "TRANG CHỦ", href: "#" },
-  { label: "TECHWORLD", href: "#about" },
-  { label: "GIẢI PHÁP", href: "#services" },
-  { label: "TIN TỨC & SỰ KIỆN", href: "#news" },
-  { label: "TUYỂN DỤNG", href: "#" },
+  { label: "TRANG CHỦ", href: "/" },
+  { label: "TECHWORLD", href: "/#about" },
+  { label: "GIẢI PHÁP", href: "/#services" },
+  { label: "TIN TỨC & SỰ KIỆN", href: "/#news" },
+  { label: "TUYỂN DỤNG", href: "/#" },
 ];
 
 const Header = () => {
@@ -30,7 +30,7 @@ const Header = () => {
       }}
     >
       <div className="container mx-auto flex items-center justify-between h-[60px] px-4">
-        <a href="#" className="flex items-center">
+        <a href="/" className="flex items-center">
           <span className="text-2xl font-extrabold tracking-wider text-[#2563eb]" style={{ letterSpacing: "0.1em" }}>
             TECHWORLD
           </span>
