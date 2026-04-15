@@ -1,8 +1,8 @@
 import React, { useState,useEffect } from 'react';
-import Sidebar from '../Components/Admin/Sidebar';
-import ProjectTable from '../Components/Admin/ProjectTable';
-import ContactTable from '../Components/Admin/ContactTable';
-import ProjectModal from '../Components/Admin/ProjectModal';
+import Sidebar from '../components/Admin/Sidebar';
+import ProjectTable from '../components/Admin/ProjectTable';
+import ContactTable from '../components/Admin/ContactTable';
+import ProjectModal from '../components/Admin/ProjectModal';
 import { Bell, Settings } from 'lucide-react';
 
 import { useNavigate } from 'react-router-dom';     // Và đảm bảo có useNavigate
