@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
+
+
 const navItems = [
   { label: "TRANG CHỦ", href: "/" },
   { label: "TECHWORLD", href: "/#about" },
@@ -20,19 +22,24 @@ const Header = () => {
   }, []);
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
-        scrolled ? "bg-white shadow-md py-2" : "bg-white/95 backdrop-blur-md py-4"
-      }`}
-      style={{ 
+    <header
+      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${scrolled ? "bg-white shadow-md py-2" : "bg-white/95 backdrop-blur-md py-4"
+        }`}
+      style={{
         zIndex: 9999, // Luôn nằm trên Banner
         WebkitBackdropFilter: "blur(12px)" // Hỗ trợ blur cho Safari
       }}
     >
       <div className="container mx-auto flex items-center justify-between h-[60px] px-4">
-        <a href="/" className="flex items-center">
-          <span className="text-2xl font-extrabold tracking-wider text-[#2563eb]" style={{ letterSpacing: "0.1em" }}>
-            TECHWORLD
+        <a href="/" className="flex items-center gap-3 md:gap-4">
+          <img
+            src="/logo.png"
+            alt="Techworld logo"
+            className="h-8 md:h-10 w-auto object-contain"
+          />
+
+          <span className="text-sm md:text-xl font-bold tracking-wide text-blue-600 whitespace-nowrap hidden sm:block">
+            TECHWORLD SOLUTIONS VIETNAM
           </span>
         </a>
 

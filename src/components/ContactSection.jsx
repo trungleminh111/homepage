@@ -79,7 +79,7 @@ const ContactSection = () => {
                   className="text-xl md:text-2xl font-extrabold whitespace-nowrap"
 
                 >
-                  TECHWORLD
+                  TECHWORLD SOLUTIONS VIETNAM
                 </span>
 
 
@@ -90,8 +90,6 @@ const ContactSection = () => {
               Đội ngũ của chúng tôi luôn sẵn sàng hỗ trợ bạn —
             </p>
 
-            <h4 className="font-bold text-xl">Techworld Solutions</h4>
-            <p className="text-white/70 mt-2">Techworld Consultant</p>
           </div>
 
         </div>

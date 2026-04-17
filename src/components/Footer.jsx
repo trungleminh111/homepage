@@ -84,14 +84,14 @@ const Footer = () => {
               VỀ CHÚNG TÔI
             </h4>
             <p className="leading-relaxed mb-6 text-gray-400">
-              <strong className="text-white">Techworld Solutions Vietnam</strong> – Thành viên của{" "}
+              <strong className="text-white">TECHWORLD SOLUTIONS VIETNAM</strong> – Thành viên của{" "}
               <strong className="text-white">Techworld International</strong> (Australia). 
               Chúng tôi hợp tác cùng các tập đoàn công nghệ hàng đầu thế giới: {" "}
               <span className="text-blue-400">Microsoft, AWS, Epicor, Siemens</span> để cung cấp giải pháp chuyển đổi số toàn diện.
             </p>
             <div className="mt-auto pt-6 border-t border-white/10">
               <h5 className="text-[#eab308] font-bold text-lg italic mb-2">CƠ HỘI NGHỀ NGHIỆP</h5>
-              <p className="text-white font-semibold">Gia nhập đội ngũ Techworld ngay hôm nay!</p>
+              <p className="text-white font-semibold">Gia nhập đội ngũ TECHWORLD SOLUTIONS VIETNAM ngay hôm nay!</p>
             </div>
           </div>
 

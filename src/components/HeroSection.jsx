@@ -5,8 +5,8 @@ const slides = [
   {
     bg: heroBg,
     label: "Chào mừng đến với",
-    title: "Techworld Solutions",
-    highlight: "Solutions",
+    title: "TECHWORLD SOLUTIONS VIETNAM",
+    highlight: "VIETNAM",
     sub: "Hành trình đổi mới tương lai",
   },
   {
