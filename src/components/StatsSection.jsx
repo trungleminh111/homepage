@@ -40,10 +40,10 @@ const AnimatedNumber = ({ target, duration = 1500 }) => {
 
 const StatsSection = () => {
   const stats = [
-    { value: 20, label: "Đối tác hài lòng" },
-    { value: 15, label: "Dự Án Hoàn Thành" },
-    { value: 3, label: "Giải thưởng" },
-    { value: 15, label: "Năm Kinh Nghiệm" },
+    { value: 68, label: "Đối tác hài lòng" },
+    { value: 34, label: "Dự Án Hoàn Thành" },
+    { value: 9, label: "Giải thưởng" },
+    { value: 25, label: "Năm Kinh Nghiệm" },
   ];
 
   return (
