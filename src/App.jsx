@@ -1,6 +1,5 @@
 import './index.css'
-import { HashRouter, Routes, Route } from "react-router-dom"
-import { HelmetProvider } from 'react-helmet-async'
+import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import AboutSection from "./components/AboutSection"
 import Footer from "./components/Footer"
@@ -29,23 +28,18 @@ const Home = () => (
 
 function App() {
   return (
-    <HelmetProvider>
-      {/* 🔥 QUAN TRỌNG: dùng HashRouter */}
-      <HashRouter>
-        <Header />
-
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tin-tuc/:slug" element={<PostDetail />} />
-          <Route path="/project/:id" element={<ProjectDetail />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-        </Routes>
-
-        <ScrollToTop />
-        <Footer />
-      </HashRouter>
-    </HelmetProvider>
+    <BrowserRouter>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/tin-tuc/:slug" element={<PostDetail />} />
+        <Route path="/project/:id" element={<ProjectDetail />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+      </Routes>
+      <ScrollToTop />
+      <Footer />
+    </BrowserRouter>
   )
 }
 
