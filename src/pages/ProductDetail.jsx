@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Loader2, Globe } from 'lucide-react';
-import { Helmet } from 'react-helmet-async'; // Thêm dòng này
+import { Helmet } from 'react-helmet-async';
 import { ProjectService } from '../Services/api';
+
+const DOMAIN = "https://app.twbes.com";
 
 const ProjectDetail = () => {
     const { id } = useParams();
@@ -18,8 +20,12 @@ const ProjectDetail = () => {
         setLoading(true);
         try {
             const res = await ProjectService.getAll();
-            const projects = Array.isArray(res.data) ? res.data : (res.data?.data || []);
+            const projects = Array.isArray(res.data)
+                ? res.data
+                : (res.data?.data || []);
+
             const found = projects.find(p => String(p._id) === String(id));
+
             if (found) setProject(found);
         } catch (err) {
             console.error("Lỗi:", err);
@@ -38,34 +44,61 @@ const ProjectDetail = () => {
             .replace(/(<br\s*\/?>\s*){2,}/gi, "<br/>");
     };
 
-    if (loading) return (
-        <div className="min-h-screen flex items-center justify-center bg-white">
-            <Loader2 className="animate-spin text-blue-600" size={32} />
-        </div>
-    );
+    // 🔥 QUAN TRỌNG: react-snap cần đoạn này
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <Loader2 className="animate-spin text-blue-600" size={32} />
+            </div>
+        );
+    }
 
     if (!project) return null;
-    
 
-    const projectImage = project.upload_preset || "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026";
+    const projectImage =
+        project.upload_preset ||
+        "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2026";
+
+    // 🔥 URL chuẩn cho share
+    const pageUrl = `${DOMAIN}/#/project/${project._id}`;
 
     return (
         <div className="bg-slate-50/30 min-h-screen w-full">
-            {/* Cấu hình Meta Tags để link preview ngon */}
+
+            {/* ✅ META CHUẨN SHARE */}
             <Helmet>
                 <title>{project.Name} | Techworld</title>
+
+                {/* SEO */}
+                <meta name="description" content={project.short_description} />
+
+                {/* Open Graph */}
                 <meta property="og:title" content={project.Name} />
                 <meta property="og:description" content={project.short_description} />
                 <meta property="og:image" content={projectImage} />
-                <meta property="og:url" content={window.location.href} />
+                <meta property="og:url" content={pageUrl} />
                 <meta property="og:type" content="article" />
+                <meta property="og:site_name" content="Techworld" />
+                <meta property="og:locale" content="vi_VN" />
+
+                {/* Twitter */}
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={project.Name} />
+                <meta name="twitter:description" content={project.short_description} />
+                <meta name="twitter:image" content={projectImage} />
+
+                {/* Canonical */}
+                <link rel="canonical" href={pageUrl} />
             </Helmet>
 
             <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-8 sm:pb-12 md:pb-20 bg-white shadow-sm border-x border-slate-50 min-h-screen">
-                {/* NÚT BACK */}
+
+                {/* BACK */}
                 <div className="mb-6 sm:mb-8">
-                    <Link to="/" className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold text-xs sm:text-sm transition-all">
+                    <Link
+                        to="/"
+                        className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold text-xs sm:text-sm transition-all"
+                    >
                         <ArrowLeft size={16} /> Quay lại
                     </Link>
                 </div>
@@ -114,7 +147,9 @@ const ProjectDetail = () => {
                 <div className="prose prose-slate max-w-none px-1 sm:px-2">
                     <div
                         className="blog-content text-slate-700"
-                        dangerouslySetInnerHTML={{ __html: cleanHTML(project.description) }}
+                        dangerouslySetInnerHTML={{
+                            __html: cleanHTML(project.description)
+                        }}
                     />
                 </div>
 
@@ -123,12 +158,14 @@ const ProjectDetail = () => {
                     <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tighter uppercase italic">
                         TECHWORLD
                     </h3>
+
                     <div className="flex flex-col items-center gap-4 sm:gap-6">
                         <p className="text-slate-500 max-w-md mx-auto text-sm leading-relaxed">
                             Bạn có dự án tương tự? Liên hệ với chúng tôi để hiện thực hóa ý tưởng của bạn.
                         </p>
-                        <Link 
-                            to="/#contact" 
+
+                        <Link
+                            to="/#contact"
                             className="inline-block border-2 border-slate-900 text-slate-900 px-6 sm:px-10 py-3 sm:py-4 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all"
                         >
                             Bắt đầu tư vấn

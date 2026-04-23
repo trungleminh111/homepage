@@ -1,6 +1,6 @@
 import './index.css'
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { HelmetProvider } from 'react-helmet-async'; // 1. Import cái này á
+import { HashRouter, Routes, Route } from "react-router-dom"
+import { HelmetProvider } from 'react-helmet-async'
 
 import AboutSection from "./components/AboutSection"
 import Footer from "./components/Footer"
@@ -29,10 +29,11 @@ const Home = () => (
 
 function App() {
   return (
-    // 2. Bọc toàn bộ App trong HelmetProvider
     <HelmetProvider>
-      <BrowserRouter>
+      {/* 🔥 QUAN TRỌNG: dùng HashRouter */}
+      <HashRouter>
         <Header />
+
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/tin-tuc/:slug" element={<PostDetail />} />
@@ -40,9 +41,10 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/admin" element={<AdminDashboard />} />
         </Routes>
+
         <ScrollToTop />
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </HelmetProvider>
   )
 }
