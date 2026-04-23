@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { getPostBySlug } from "../api/api";
 
 const stripFeaturedImage = (html, thumbUrl) => {
@@ -41,7 +42,6 @@ const PostDetail = () => {
   }, [slug]);
 
   if (loading) return (
-    /* Tăng padding top lên pt-32 để không bị lấp bởi Header khi đang load */
     <div className="container mx-auto px-4 pt-32 pb-20 max-w-3xl animate-pulse space-y-4">
       <div className="h-8 bg-muted rounded w-2/3" />
       <div className="h-4 bg-muted rounded w-1/3" />
@@ -63,10 +63,40 @@ const PostDetail = () => {
   });
   const cleanContent = stripFeaturedImage(post.content.rendered, thumb);
 
+  const siteUrl = "https://app.twbes.com";
+  const pageUrl = `${siteUrl}/post/${slug}`;
+  const ogImage = thumb || `${siteUrl}/og-social.png`;
+  const plainTitle = post.title.rendered.replace(/<[^>]+>/g, "");
+  const plainExcerpt = post.excerpt?.rendered
+    ? post.excerpt.rendered.replace(/<[^>]+>/g, "").trim()
+    : "Business Enhancement Solutions";
+
   return (
-    /* pt-32: Tạo khoảng cách rộng rãi bên dưới Header */
     <main className="container mx-auto px-4 pt-32 pb-20 max-w-3xl">
-      {/* Thêm mt-4 để nút tách hẳn ra khỏi vùng mép Header nếu cần */}
+
+      <Helmet>
+        <title>{plainTitle} | TECHWORLD</title>
+        <meta name="description" content={plainExcerpt} />
+
+        <meta property="og:type" content="article" />
+        <meta property="og:site_name" content="TECHWORLD" />
+        <meta property="og:locale" content="vi_VN" />
+        <meta property="og:url" content={pageUrl} />
+        <meta property="og:title" content={`${plainTitle} | TECHWORLD`} />
+        <meta property="og:description" content={plainExcerpt} />
+        <meta property="og:image" content={ogImage} />
+        <meta property="og:image:secure_url" content={ogImage} />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:image:alt" content={plainTitle} />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${plainTitle} | TECHWORLD`} />
+        <meta name="twitter:description" content={plainExcerpt} />
+        <meta name="twitter:image" content={ogImage} />
+      </Helmet>
+
       <Link 
         to="/" 
         className="text-sm font-semibold text-tw-blue hover:text-tw-blue-dark transition-colors mb-10 inline-flex items-center gap-2"
@@ -87,11 +117,11 @@ const PostDetail = () => {
 
       {thumb && (
         <div className="mb-12 shadow-2xl rounded-2xl overflow-hidden">
-            <img
+          <img
             src={thumb}
             alt={post.title.rendered}
             className="w-full object-cover max-h-[450px]"
-            />
+          />
         </div>
       )}
 
