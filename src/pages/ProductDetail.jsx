@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowLeft, Loader2, Globe } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import { ProjectService } from '../Services/api';
 
 const ProjectDetail = () => {
@@ -27,16 +28,14 @@ const ProjectDetail = () => {
         }
     };
 
-    // 🔥 FIX GỐC LỖI QUILL
     const cleanHTML = (html) => {
         if (!html) return "";
-
         return html
-            .replace(/\n/g, " ")                // remove xuống dòng
-            .replace(/>\s+</g, "><")            // remove space giữa tag
-            .replace(/\s+/g, " ")               // gom space
-            .replace(/&nbsp;/g, " ")            // fix nbsp
-            .replace(/(<br\s*\/?>\s*){2,}/gi, "<br/>"); // fix spam br
+            .replace(/\n/g, " ")
+            .replace(/>\s+</g, "><")
+            .replace(/\s+/g, " ")
+            .replace(/&nbsp;/g, " ")
+            .replace(/(<br\s*\/?>\s*){2,}/gi, "<br/>");
     };
 
     if (loading) return (
@@ -47,8 +46,35 @@ const ProjectDetail = () => {
 
     if (!project) return null;
 
+    const siteUrl = 'https://app.twbes.com';
+    const pageUrl = `${siteUrl}/project/${id}`;
+    const ogImage = project.upload_preset || `${siteUrl}/og-social.png`;
+
     return (
         <div className="bg-slate-50/30 min-h-screen w-full">
+
+            <Helmet>
+                <title>{project.Name} | TECHWORLD</title>
+                <meta name="description" content={project.short_description} />
+
+                <meta property="og:type" content="article" />
+                <meta property="og:title" content={project.Name} />
+                <meta property="og:description" content={project.short_description} />
+                <meta property="og:url" content={pageUrl} />
+                <meta property="og:site_name" content="TECHWORLD" />
+                <meta property="og:locale" content="vi_VN" />
+                <meta property="og:image" content={ogImage} />
+                <meta property="og:image:secure_url" content={ogImage} />
+                <meta property="og:image:type" content="image/png" />
+                <meta property="og:image:width" content="1200" />
+                <meta property="og:image:height" content="630" />
+                <meta property="og:image:alt" content={project.Name} />
+
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={project.Name} />
+                <meta name="twitter:description" content={project.short_description} />
+                <meta name="twitter:image" content={ogImage} />
+            </Helmet>
 
             {/* MAIN */}
             <main className="max-w-5xl mx-auto px-4 sm:px-6 pt-28 sm:pt-32 pb-8 sm:pb-12 md:pb-20 bg-white shadow-sm border-x border-slate-50 min-h-screen">
@@ -67,7 +93,7 @@ const ProjectDetail = () => {
                     </h1>
 
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 sm:gap-8 py-4 sm:py-6 border-y border-slate-100 mb-8 sm:mb-12">
-                        
+
                         <div className="flex-1">
                             <p className="text-base sm:text-lg text-slate-500 leading-relaxed italic border-l-4 border-blue-600 pl-4 sm:pl-6">
                                 {project.short_description}
@@ -111,7 +137,7 @@ const ProjectDetail = () => {
 
                 {/* FOOTER */}
                 <footer className="mt-20 sm:mt-40 pt-12 sm:pt-16 border-t border-slate-100 text-center space-y-6 sm:space-y-8">
-                    
+
                     <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tighter uppercase italic">
                         TECHWORLD
                     </h3>
@@ -121,8 +147,8 @@ const ProjectDetail = () => {
                             Bạn có dự án tương tự? Liên hệ với chúng tôi để hiện thực hóa ý tưởng của bạn.
                         </p>
 
-                        <Link 
-                            to="/#contact" 
+                        <Link
+                            to="/#contact"
                             className="inline-block border-2 border-slate-900 text-slate-900 px-6 sm:px-10 py-3 sm:py-4 rounded-full font-black text-[10px] sm:text-xs uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-all"
                         >
                             Bắt đầu tư vấn
@@ -138,33 +164,24 @@ const ProjectDetail = () => {
                     word-break: break-word;
                     overflow-wrap: break-word;
                 }
-
                 .blog-content * {
                     word-break: break-word !important;
                     overflow-wrap: break-word !important;
                 }
-
                 .blog-content h2 {
                     font-size: 1.5rem;
                     font-weight: 800;
                     margin: 2rem 0 1rem;
                 }
-
                 .blog-content p {
                     font-size: 1rem;
                     line-height: 1.7;
                     margin-bottom: 1.2rem;
                 }
-
                 @media (min-width: 768px) {
-                    .blog-content p {
-                        font-size: 1.1rem;
-                    }
-                    .blog-content h2 {
-                        font-size: 2rem;
-                    }
+                    .blog-content p { font-size: 1.1rem; }
+                    .blog-content h2 { font-size: 2rem; }
                 }
-
                 .blog-content img {
                     max-width: 100% !important;
                     height: auto !important;
