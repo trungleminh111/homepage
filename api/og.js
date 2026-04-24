@@ -119,8 +119,9 @@ export default async function handler(req, res) {
     return res.send(buildHtml(title, description, image, url));
 
   } catch (err) {
-    console.error('OG handler error:', err);
-    res.setHeader('Content-Type', 'text/html');
-    return res.send(fallbackHtml);
-  }
+  console.error('OG handler error:', err);
+  // Trả lỗi ra luôn để debug
+  res.setHeader('Content-Type', 'text/plain');
+  return res.send(`ERROR: ${err.message}\nStack: ${err.stack}`);
+}
 }
