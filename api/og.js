@@ -56,8 +56,14 @@ export default async function handler(req, res) {
       const timeout = setTimeout(() => controller.abort(), 20000);
 
       const apiRes = await fetch(
-        `https://twi.vn/wp-json/wp/v2/posts?slug=${slug}&_fields=title,excerpt,rttpg_featured_image_url`,
-        { signal: controller.signal }
+        `https://twi.vn/wp-json/wp/v2/posts?slug=${slug}&_embed`,
+        {
+          signal: controller.signal,
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)',
+            'Accept': 'application/json',
+          }
+        }
       );
       clearTimeout(timeout);
 
@@ -85,17 +91,25 @@ export default async function handler(req, res) {
         .trim()
         .slice(0, 160);
 
-      image = article.rttpg_featured_image_url?.full?.[0]
+      // Thử nhiều cách lấy ảnh
+      const imgMatch = article.content?.rendered?.match(/src="([^"]+\.(png|jpg|jpeg|webp))"/);
+      image = article._embedded?.['wp:featuredmedia']?.[0]?.source_url
+        || article.rttpg_featured_image_url?.full?.[0]
+        || imgMatch?.[1]
         || 'https://app.twbes.com/og-social.png';
 
       url = `https://app.twbes.com/tin-tuc/${slug}`;
 
     } else {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000);
+      const timeout = setTimeout(() => controller.abort(), 10000);
 
       const apiRes = await fetch(`https://api.twbes.com/projects`, {
-        signal: controller.signal
+        signal: controller.signal,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (compatible; Googlebot/2.1)',
+          'Accept': 'application/json',
+        }
       });
       clearTimeout(timeout);
 
@@ -119,9 +133,8 @@ export default async function handler(req, res) {
     return res.send(buildHtml(title, description, image, url));
 
   } catch (err) {
-  console.error('OG handler error:', err);
-  // Trả lỗi ra luôn để debug
-  res.setHeader('Content-Type', 'text/plain');
-  return res.send(`ERROR: ${err.message}\nStack: ${err.stack}`);
-}
+    console.error('OG handler error:', err);
+    res.setHeader('Content-Type', 'text/html');
+    return res.send(fallbackHtml);
+  }
 }
