@@ -9,82 +9,13 @@ export default async function handler(req, res) {
     return res.end();
   }
 
-  try {
-    let title, description, image, url;
+  const escape = (str) => str
+    ?.replace(/&/g, '&amp;')
+    ?.replace(/"/g, '&quot;')
+    ?.replace(/</g, '&lt;')
+    ?.replace(/>/g, '&gt;') || '';
 
-    if (type === 'tintuc') {
-      // Timeout 2.5s cho Facebook bot
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2500);
-
-      const apiRes = await fetch(`https://twi.vn/wp-json/wp/v2/posts?slug=${slug}&_embed`, {
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-
-      const data = await apiRes.json();
-
-      if (!data.length) {
-        res.writeHead(302, { Location: '/' });
-        return res.end();
-      }
-
-      const article = data[0];
-
-      title = article.title.rendered
-        .replace(/&#(\d+);/g, (_, c) => String.fromCharCode(c))
-        .replace(/<[^>]*>/g, '')
-        .trim();
-      title = `${title} | TECHWORLD`;
-
-      description = article.excerpt.rendered
-        .replace(/<[^>]*>/g, '')
-        .replace(/&#(\d+);/g, (_, c) => String.fromCharCode(c))
-        .replace(/&hellip;/g, '...')
-        .replace(/\[&hellip;\]/g, '...')
-        .replace(/&amp;/g, '&')
-        .replace(/&quot;/g, '"')
-        .trim()
-        .slice(0, 160);
-
-      image = article._embedded?.['wp:featuredmedia']?.[0]?.source_url
-        || 'https://app.twbes.com/og-social.png';
-
-      url = `https://app.twbes.com/tin-tuc/${slug}`;
-
-    } else {
-      // Timeout 2.5s cho Facebook bot
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 2500);
-
-      const apiRes = await fetch(`https://api.twbes.com/projects`, {
-        signal: controller.signal
-      });
-      clearTimeout(timeout);
-
-      const data = await apiRes.json();
-      const projects = Array.isArray(data) ? data : (data?.data || []);
-      const project = projects.find(p => String(p._id) === String(id));
-
-      if (!project) {
-        res.writeHead(302, { Location: '/' });
-        return res.end();
-      }
-
-      title = `${project.Name} | TECHWORLD`;
-      description = project.short_description || 'Business Enhancement Solutions';
-      image = project.upload_preset || 'https://app.twbes.com/og-social.png';
-      url = `https://app.twbes.com/project/${id}`;
-    }
-
-    // Escape để tránh XSS trong HTML attributes
-    const escape = (str) => str
-      ?.replace(/&/g, '&amp;')
-      ?.replace(/"/g, '&quot;')
-      ?.replace(/</g, '&lt;')
-      ?.replace(/>/g, '&gt;') || '';
-
-    const ogHtml = `<!DOCTYPE html>
+  const buildHtml = (title, description, image, url) => `<!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
@@ -110,25 +41,86 @@ export default async function handler(req, res) {
 <body></body>
 </html>`;
 
+  const fallbackHtml = buildHtml(
+    'TECHWORLD',
+    'Business Enhancement Solutions',
+    'https://app.twbes.com/og-social.png',
+    'https://app.twbes.com'
+  );
+
+  try {
+    let title, description, image, url;
+
+    if (type === 'tintuc') {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+
+      const apiRes = await fetch(
+        `https://twi.vn/wp-json/wp/v2/posts?slug=${slug}&_fields=title,excerpt,rttpg_featured_image_url`,
+        { signal: controller.signal }
+      );
+      clearTimeout(timeout);
+
+      const data = await apiRes.json();
+
+      if (!data.length) {
+        res.writeHead(302, { Location: '/' });
+        return res.end();
+      }
+
+      const article = data[0];
+
+      title = article.title.rendered
+        .replace(/&#(\d+);/g, (_, c) => String.fromCharCode(c))
+        .replace(/<[^>]*>/g, '')
+        .trim();
+      title = `${title} | TECHWORLD`;
+
+      description = article.excerpt.rendered
+        .replace(/<[^>]*>/g, '')
+        .replace(/&#(\d+);/g, (_, c) => String.fromCharCode(c))
+        .replace(/&hellip;/g, '...')
+        .replace(/&amp;/g, '&')
+        .replace(/&quot;/g, '"')
+        .trim()
+        .slice(0, 160);
+
+      image = article.rttpg_featured_image_url?.full?.[0]
+        || 'https://app.twbes.com/og-social.png';
+
+      url = `https://app.twbes.com/tin-tuc/${slug}`;
+
+    } else {
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 5000);
+
+      const apiRes = await fetch(`https://api.twbes.com/projects`, {
+        signal: controller.signal
+      });
+      clearTimeout(timeout);
+
+      const data = await apiRes.json();
+      const projects = Array.isArray(data) ? data : (data?.data || []);
+      const project = projects.find(p => String(p._id) === String(id));
+
+      if (!project) {
+        res.writeHead(302, { Location: '/' });
+        return res.end();
+      }
+
+      title = `${project.Name} | TECHWORLD`;
+      description = project.short_description || 'Business Enhancement Solutions';
+      image = project.upload_preset || 'https://app.twbes.com/og-social.png';
+      url = `https://app.twbes.com/project/${id}`;
+    }
+
     res.setHeader('Content-Type', 'text/html');
-    res.setHeader('Cache-Control', 'public, max-age=3600'); // cache 1 tiếng
-    return res.send(ogHtml);
+    res.setHeader('Cache-Control', 'public, max-age=3600');
+    return res.send(buildHtml(title, description, image, url));
 
   } catch (err) {
     console.error('OG handler error:', err);
-    // Trả fallback OG thay vì redirect — tránh Facebook nhận 302
     res.setHeader('Content-Type', 'text/html');
-    return res.send(`<!DOCTYPE html>
-<html lang="vi">
-<head>
-  <meta charset="UTF-8" />
-  <title>TECHWORLD</title>
-  <meta property="og:title" content="TECHWORLD" />
-  <meta property="og:description" content="Business Enhancement Solutions" />
-  <meta property="og:image" content="https://app.twbes.com/og-social.png" />
-  <meta property="og:url" content="https://app.twbes.com" />
-</head>
-<body></body>
-</html>`);
+    return res.send(fallbackHtml);
   }
 }
