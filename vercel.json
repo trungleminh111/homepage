@@ -1,7 +1,7 @@
 {
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/project/:id", "destination": "/api/og?id=:id" },
-    { "source": "/(.*)", "destination": "/" }
+    { "source": "/project/:id", "destination": "/api/og?type=project&id=:id" },
+    { "source": "/tin-tuc/:slug", "destination": "/api/og?type=tintuc&slug=:slug" },
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
