@@ -53,7 +53,7 @@ export default async function handler(req, res) {
 
     if (type === 'tintuc') {
       const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 5000);
+      const timeout = setTimeout(() => controller.abort(), 20000);
 
       const apiRes = await fetch(
         `https://twi.vn/wp-json/wp/v2/posts?slug=${slug}&_fields=title,excerpt,rttpg_featured_image_url`,
